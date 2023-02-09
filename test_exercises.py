@@ -1,10 +1,19 @@
 import pytest
+import builtins
 # dev mode:
-# from exercises import solutions as exercises
+from exercises import solutions as exercises
 
 # prod:
-from exercises import exercises
+# from exercises import exercises
 
+# Utilities
+def get_type(type_name):
+    try:
+        return getattr(builtins, type_name)
+    except AttributeError:
+        return None
+
+# tests
 class TestExercises:
     def test_ex_1(self):
         assert exercises.exposure == 150
@@ -35,3 +44,19 @@ class TestExercises:
         assert policy_info.get("year") == 2022
 
         assert exercises.policy_year == policy_info.get("year")
+
+    def test_ex_4(self):
+        assert exercises.vehicles == [
+            "car",
+            "plane",
+            "boat",
+            "train"
+        ]
+
+    def test_ex_4(self):
+        user_type = exercises.a_variable_type
+
+        if type(user_type) is not type:
+            user_type = get_type(str(user_type))
+
+        assert user_type is type(60.8)
