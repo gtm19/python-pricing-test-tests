@@ -8,10 +8,7 @@ from exercises import solutions as exercises
 
 # Utilities
 def get_type(type_name):
-    try:
-        return getattr(builtins, type_name)
-    except AttributeError:
-        return None
+        return getattr(builtins, type_name, None)
 
 # tests
 class TestExercises:
