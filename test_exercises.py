@@ -57,3 +57,24 @@ class TestExercises:
             user_type = get_type(str(user_type))
 
         assert user_type is type(60.8)
+
+    def test_ex_5(self):
+        premium_rater = exercises.premium_rater
+
+        # test for errors
+        for (exp, rate) in [
+            ("a", 1),
+            (10, "a"),
+            ("g", "a"),
+            (10, -30),
+            (-20, 10),
+            (-100, -1000)
+        ]:
+            with pytest.raises(ValueError):
+                premium_rater(exp, rate)
+
+        # test for rate uplift
+        assert premium_rater(15e6, 0.5) == pytest.approx(8_250_000, abs=1e-5)
+
+        # test for smaller exposures
+        assert premium_rater(1000, 0.1) == pytest.approx(100, abs=1e-5)
