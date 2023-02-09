@@ -1,10 +1,7 @@
 import pytest
 import builtins
-# dev mode:
-from exercises import solutions as exercises
 
-# prod:
-# from exercises import exercises
+from exercises import exercises
 
 # Utilities
 def get_type(type_name):
