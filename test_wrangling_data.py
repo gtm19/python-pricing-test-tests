@@ -30,9 +30,9 @@ class TestDataWrangling:
         assert df.query("year == 2017").inflated_loss_ratio.iloc[0] == pytest.approx(0.462771, abs=0.001)
 
     def test_dw_5(self):
-        assert wrangling_data.all_years_loss_ratio(df) == pytest.approx(0.441244, abs=0.001)
+        assert wrangling_data.all_year_loss_ratio(df) == pytest.approx(0.441244, abs=0.001)
 
     def test_dw_6(self):
-        assert wrangling_data.last_n_years_loss_ratio(df, 2) == pytest.approx(0.467106, abs=0.001)
-        assert wrangling_data.last_n_years_loss_ratio(df, 4) == pytest.approx(0.458929, abs=0.001)
-        assert wrangling_data.last_n_years_loss_ratio(df, 5) == pytest.approx(0.457773, abs=0.001)
+        assert wrangling_data.last_n_year_loss_ratio(df, 2) == pytest.approx(0.467106, abs=0.001)
+        assert wrangling_data.last_n_year_loss_ratio(df, 4) == pytest.approx(0.458929, abs=0.001)
+        assert wrangling_data.last_n_year_loss_ratio(df, 5) == pytest.approx(0.457773, abs=0.001)
