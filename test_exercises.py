@@ -84,4 +84,4 @@ class TestExercises:
     if os.path.exists("tests") and len(os.listdir("tests")) > 0:
         LOGGER.info("Unit tests exist in tests/. Check them out!")
     else:
-        LOGGER.warn("No unit tests have been created for bonus question")
+        LOGGER.warning("No unit tests have been created for bonus question")
