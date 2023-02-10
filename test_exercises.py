@@ -1,7 +1,12 @@
 import pytest
 import builtins
+import os
+
+import logging
 
 from exercises import exercises
+
+LOGGER = logging.getLogger(__name__)
 
 # Utilities
 def get_type(type_name):
@@ -72,6 +77,11 @@ class TestExercises:
 
         # test for rate uplift
         assert premium_rater(15e6, 0.5) == pytest.approx(8_250_000, abs=1e-5)
-
         # test for smaller exposures
         assert premium_rater(1000, 0.1) == pytest.approx(100, abs=1e-5)
+
+    # Bonus question checking
+    if os.path.exists("tests") and len(os.listdir("tests")) > 0:
+        LOGGER.info("Unit tests exist in tests/. Check them out!")
+    else:
+        LOGGER.warn("No unit tests have been created for bonus question")
