@@ -1,6 +1,7 @@
 import pytest
 import builtins
 import os
+import random
 
 import logging
 
@@ -79,6 +80,16 @@ class TestExercises:
         assert premium_rater(15e6, 0.5) == pytest.approx(8_250_000, abs=1e-5)
         # test for smaller exposures
         assert premium_rater(1000, 0.1) == pytest.approx(100, abs=1e-5)
+
+    def test_ex_7(self):
+        Counter = exercises.Counter
+        count_inst = Counter()
+        n = random.choice(range(50)) + 1
+
+        [ count_inst.count_up() for _ in range(n) ]
+
+        assert count_inst.count == n
+
 
     # Bonus question checking
     if os.path.exists("tests") and len(os.listdir("tests")) > 0:
