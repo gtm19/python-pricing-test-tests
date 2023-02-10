@@ -52,7 +52,7 @@ class TestExercises:
             "train"
         ]
 
-    def test_ex_4(self):
+    def test_ex_5(self):
         user_type = exercises.a_variable_type
 
         if type(user_type) is not type:
@@ -60,7 +60,7 @@ class TestExercises:
 
         assert user_type is type(60.8)
 
-    def test_ex_5(self):
+    def test_ex_6(self):
         premium_rater = exercises.premium_rater
 
         # test for errors
