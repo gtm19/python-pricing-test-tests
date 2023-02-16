@@ -41,6 +41,7 @@ class TestExercises:
         assert type(policy_info) is dict
         assert policy_info.get("policy_ref").upper() == "ABC1"
         assert policy_info.get("business_class").lower() == "property"
+        assert isinstance(policy_info.get("year"), (int, float))
         assert policy_info.get("year") == 2022
 
         assert exercises.policy_year == policy_info.get("year")
