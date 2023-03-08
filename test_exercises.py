@@ -3,32 +3,37 @@ import builtins
 import os
 import random
 
-import logging
-
 from exercises import exercises
-
-LOGGER = logging.getLogger(__name__)
 
 # Utilities
 def get_type(type_name):
         return getattr(builtins, type_name, None)
 
-# tests
-class TestExercises:
-    def test_ex_1(self):
+class TestEx01:
+    def test_exposure(self):
         assert exercises.exposure == 150
 
-    def test_ex_2(self, capsys):
+class TestEx02:
+    def test_validate_exposure_error(self):
         with pytest.raises(Exception):
             exercises.validate_exposure(-10)
 
+    @pytest.mark.parametrize(
+        "value,text",
+        [
+            (5, "small"),
+            (105, "large"),
+        ]
+    )
+    def test_validate_exposure_small(self, capsys, value, text):
         capsys.readouterr()
 
-        exercises.validate_exposure(5)
+        exercises.validate_exposure(value)
         out, err = capsys.readouterr()
         print(out)
-        assert 'small' in out.lower()
+        assert text in out.lower()
 
+    def test_validate_exposure_large(self, capsys):
         capsys.readouterr()
 
         exercises.validate_exposure(105)
@@ -36,17 +41,21 @@ class TestExercises:
         print(out)
         assert 'large' in out.lower()
 
-    def test_ex_3(self):
-        policy_info = exercises.policy_info
-        assert type(policy_info) is dict
-        assert policy_info.get("policy_ref").upper() == "ABC1"
-        assert policy_info.get("business_class").lower() == "property"
-        assert isinstance(policy_info.get("year"), (int, float))
-        assert policy_info.get("year") == 2022
+class TestEx03:
+    def test_policy_info_dict(self):
+        assert type(exercises.policy_info) is dict
 
-        assert exercises.policy_year == policy_info.get("year")
+    def test_policy_info_content(self):
+        assert exercises.policy_info.get("policy_ref").upper() == "ABC1"
+        assert exercises.policy_info.get("business_class").lower() == "property"
+        assert isinstance(exercises.policy_info.get("year"), (int, float))
+        assert exercises.policy_info.get("year") == 2022
 
-    def test_ex_4(self):
+    def test_policy_year_assignment(self):
+        assert exercises.policy_year == exercises.policy_info.get("year")
+
+class TestEx04:
+    def test_vehicles(self):
         assert exercises.vehicles == [
             "car",
             "plane",
@@ -54,7 +63,8 @@ class TestExercises:
             "train"
         ]
 
-    def test_ex_5(self):
+class TestEx05:
+    def test_type(self):
         user_type = exercises.a_variable_type
 
         if type(user_type) is not type:
@@ -62,38 +72,45 @@ class TestExercises:
 
         assert user_type is type(60.8)
 
-    def test_ex_6(self):
-        premium_rater = exercises.premium_rater
-
-        # test for errors
-        for (exp, rate) in [
+class TestEx06:
+    @pytest.mark.parametrize(
+        "exp,rate",
+        [
             ("a", 1),
             (10, "a"),
             ("g", "a"),
             (10, -30),
             (-20, 10),
             (-100, -1000)
-        ]:
-            with pytest.raises(ValueError):
-                premium_rater(exp, rate)
+        ]
+    )
+    def test_premium_rater_errors(self, exp, rate):
+        with pytest.raises(ValueError):
+            exercises.premium_rater(exp, rate)
 
-        # test for rate uplift
-        assert premium_rater(15e6, 0.5) == pytest.approx(8_250_000, abs=1e-5)
-        # test for smaller exposures
-        assert premium_rater(1000, 0.1) == pytest.approx(100, abs=1e-5)
+    @pytest.mark.parametrize(
+        "exp,rate,expected_uplift",
+        [
+            (1.5e7, 0.5, 0.1),
+            (2e6, 0.5, 0.1),
+            (5e5, 0.2, 0),
+            (1e3, 0.1, 0),
+        ]
+    )
+    def test_premium_rater_calcs(self, exp, rate, expected_uplift):
+        calced_uplift = (exercises.premium_rater(exp, rate) / (exp * rate)) - 1
+        assert round(calced_uplift, 2) == pytest.approx(expected_uplift, abs=1e-2)
 
-    def test_ex_7(self):
-        Counter = exercises.Counter
-        count_inst = Counter()
+class TestEx07:
+    def test_counter(self):
+        counter = exercises.Counter()
         n = random.choice(range(50)) + 1
+        [ counter.count_up() for _ in range(n) ]
+        assert counter.count == n
 
-        [ count_inst.count_up() for _ in range(n) ]
+class TextBonus:
+    def test_unit_test_folder_exists(self):
+        assert os.path.exists("tests")
 
-        assert count_inst.count == n
-
-
-    # Bonus question checking
-    if os.path.exists("tests") and len(os.listdir("tests")) > 0:
-        LOGGER.info("✅ Unit tests exist in tests/. Check them out!")
-    else:
-        LOGGER.warning("❌ No unit tests have been created for bonus question")
+    def test_unit_test_folder_not_empty(self):
+        assert len(os.listdir("tests")) > 0
