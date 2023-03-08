@@ -1,9 +1,11 @@
 from exercises import wrangling_data
+from .conftest import check_year_value
 from pandas import DataFrame
 import pytest
 
 df = wrangling_data.df
 
+# TESTS
 class TestDataWrangling01:
     def test_df_is_df(self):
         assert isinstance(df, DataFrame)
@@ -21,7 +23,7 @@ class TestDataWrangling02:
         assert "actual_loss_ratio" in df.columns
 
     @pytest.mark.parametrize(
-        "year,expected_lr",
+        "year,expected",
         zip(
             range(2014, 2023),
             [
@@ -37,16 +39,15 @@ class TestDataWrangling02:
             ]
         )
     )
-    def test_actual_loss_ratio(self, year, expected_lr):
-        actual_lr = df.query(f"year == {year}").actual_loss_ratio.iloc[0]
-        assert actual_lr == pytest.approx(expected_lr, abs=0.001)
+    def test_actual_loss_ratio(self, year, expected):
+        assert check_year_value(df, year, "actual_loss_ratio", expected)
 
 class TestDataWrangling03:
     def test_columns_present(self):
         assert "inflation_index" in df.columns
 
     @pytest.mark.parametrize(
-        "year,expected_inflation_index",
+        "year,expected",
         zip(
             range(2014, 2023),
             [
@@ -62,9 +63,8 @@ class TestDataWrangling03:
             ]
         )
     )
-    def test_actual_loss_ratio(self, year, expected_inflation_index):
-        actual_inflation_index = df.query(f"year == {year}").inflation_index.iloc[0]
-        assert actual_inflation_index == pytest.approx(expected_inflation_index, abs=0.001)
+    def test_actual_loss_ratio(self, year, expected):
+        assert check_year_value(df, year, "inflation_index", expected)
 
 class TestDataWrangling04:
     def test_columns_present(self):
@@ -89,8 +89,7 @@ class TestDataWrangling04:
         )
     )
     def test_actual_loss_ratio(self, year, expected):
-        actual = df.query(f"year == {year}").inflated_loss_ratio.iloc[0]
-        assert actual == pytest.approx(expected, abs=0.001)
+        check_year_value(df, year, "inflated_loss_ratio", expected)
 
 class TestDataWrangling05:
     def all_years_lr_correct(self):
