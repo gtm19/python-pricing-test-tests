@@ -91,10 +91,8 @@ class TestEx06:
     @pytest.mark.parametrize(
         "exp,rate,expected_uplift",
         [
-            (1.5e7, 0.5, 0.1),
-            (2e6, 0.5, 0.1),
-            (5e5, 0.2, 0),
-            (1e3, 0.1, 0),
+            (9_999_999, 0.5, 0),
+            (10_000_001, 0.5, 0.1)
         ]
     )
     def test_premium_rater_calcs(self, exp, rate, expected_uplift):
