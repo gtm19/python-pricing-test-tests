@@ -75,18 +75,18 @@ class TestEx05:
 
 class TestEx06:
     @pytest.mark.parametrize(
-        "exp,rate",
+        "exp,rate,error_type",
         [
-            ("a", 1),
-            (10, "a"),
-            ("g", "a"),
-            (10, -30),
-            (-20, 10),
-            (-100, -1000)
+            ("a", 1, TypeError),
+            (10, "a", TypeError),
+            ("g", "a", TypeError),
+            (10, -30, ValueError),
+            (-20, 10, ValueError),
+            (-100, -1000, ValueError)
         ]
     )
     def test_premium_rater_errors(self, exp, rate):
-        with pytest.raises(ValueError):
+        with pytest.raises(error_type):
             exercises.premium_rater(exp, rate)
 
     @pytest.mark.parametrize(
