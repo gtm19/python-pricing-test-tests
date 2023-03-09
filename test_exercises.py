@@ -85,7 +85,7 @@ class TestEx06:
             (-100, -1000, ValueError)
         ]
     )
-    def test_premium_rater_errors(self, exp, rate):
+    def test_premium_rater_errors(self, exp, rate, error_type):
         with pytest.raises(error_type):
             exercises.premium_rater(exp, rate)
 
