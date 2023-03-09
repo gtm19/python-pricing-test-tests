@@ -15,6 +15,7 @@ class TestEx01:
 
 class TestEx02:
     def test_validate_exposure_error(self):
+        assert callable(exercises.validate_exposure)
         with pytest.raises(Exception):
             exercises.validate_exposure(-10)
 
