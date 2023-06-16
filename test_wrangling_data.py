@@ -63,7 +63,7 @@ class TestDataWrangling03:
             ]
         )
     )
-    def test_actual_loss_ratio(self, year, expected):
+    def test_inflation_index(self, year, expected):
         assert check_year_value(df, year, "inflation_index", expected)
 
 class TestDataWrangling04:
@@ -88,7 +88,7 @@ class TestDataWrangling04:
             ]
         )
     )
-    def test_actual_loss_ratio(self, year, expected):
+    def test_inflated_loss_ratio(self, year, expected):
         check_year_value(df, year, "inflated_loss_ratio", expected)
 
 class TestDataWrangling05:
