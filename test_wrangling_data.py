@@ -20,6 +20,7 @@ class TestDataWrangling01:
         assert df.year.is_monotonic_increasing
 
 
+
 class TestDataWrangling02:
     def test_columns_present(self):
         assert "actual_loss_ratio" in df.columns
@@ -42,7 +43,8 @@ class TestDataWrangling02:
         ),
     )
     def test_actual_loss_ratio(self, year, expected):
-        assert check_year_value(df, year, "actual_loss_ratio", expected)
+        check_year_value(df, year, "actual_loss_ratio", expected)
+
 
 
 class TestDataWrangling03:
@@ -67,7 +69,8 @@ class TestDataWrangling03:
         ),
     )
     def test_inflation_index(self, year, expected):
-        assert check_year_value(df, year, "inflation_index", expected)
+        check_year_value(df, year, "inflation_index", expected)
+
 
 
 class TestDataWrangling04:
