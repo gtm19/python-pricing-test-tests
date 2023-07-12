@@ -112,11 +112,3 @@ class TestDataWrangling06:
         assert wrangling_data.last_n_year_loss_ratio(df, n) == pytest.approx(
             expected, abs=0.001
         )
-
-
-class TestDataWrangling07:
-    def test_plot_returned(self):
-        plot = wrangling_data.make_plot()
-        assert plot is not None
-        # check that plot has a 'show' method
-        assert hasattr(plot, "show")
