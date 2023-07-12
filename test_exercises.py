@@ -5,13 +5,16 @@ import random
 
 from exercises import exercises
 
+
 # Utilities
 def get_type(type_name):
-        return getattr(builtins, type_name, None)
+    return getattr(builtins, type_name, None)
+
 
 class TestEx01:
     def test_exposure(self):
         assert exercises.exposure == 150
+
 
 class TestEx02:
     def test_validate_exposure_error(self):
@@ -24,9 +27,9 @@ class TestEx02:
         [
             (5, "small"),
             (105, "large"),
-        ]
+        ],
     )
-    def test_validate_exposure_small(self, capsys, value, text):
+    def test_validate_exposure(self, capsys, value, text):
         capsys.readouterr()
 
         exercises.validate_exposure(value)
@@ -34,13 +37,17 @@ class TestEx02:
         print(out)
         assert text in out.lower()
 
-    def test_validate_exposure_large(self, capsys):
+    def test_validate_unremarkable_exposure(self, capsys):
+        # Test that the function doesn't print anything when
+        # exposure is neither too large nor too small
         capsys.readouterr()
 
-        exercises.validate_exposure(105)
+        exercises.validate_exposure(50)
         out, err = capsys.readouterr()
         print(out)
-        assert 'large' in out.lower()
+        assert "small" not in out.lower()
+        assert "large" not in out.lower()
+
 
 class TestEx03:
     def test_policy_info_dict(self):
@@ -55,14 +62,11 @@ class TestEx03:
     def test_policy_year_assignment(self):
         assert exercises.policy_year == exercises.policy_info.get("year")
 
+
 class TestEx04:
     def test_vehicles(self):
-        assert exercises.vehicles == [
-            "car",
-            "plane",
-            "boat",
-            "train"
-        ]
+        assert exercises.vehicles == ["car", "plane", "boat", "train"]
+
 
 class TestEx05:
     def test_type(self):
@@ -73,6 +77,7 @@ class TestEx05:
 
         assert user_type is type(60.8)
 
+
 class TestEx06:
     @pytest.mark.parametrize(
         "exp,rate,error_type",
@@ -82,30 +87,28 @@ class TestEx06:
             ("g", "a", TypeError),
             (10, -30, ValueError),
             (-20, 10, ValueError),
-            (-100, -1000, ValueError)
-        ]
+            (-100, -1000, ValueError),
+        ],
     )
     def test_premium_rater_errors(self, exp, rate, error_type):
         with pytest.raises(error_type):
             exercises.premium_rater(exp, rate)
 
     @pytest.mark.parametrize(
-        "exp,rate,expected_uplift",
-        [
-            (9_999_999, 0.5, 0),
-            (10_000_001, 0.5, 0.1)
-        ]
+        "exp,rate,expected_uplift", [(9_999_999, 0.5, 0), (10_000_001, 0.5, 0.1)]
     )
     def test_premium_rater_calcs(self, exp, rate, expected_uplift):
         calced_uplift = (exercises.premium_rater(exp, rate) / (exp * rate)) - 1
         assert round(calced_uplift, 2) == pytest.approx(expected_uplift, abs=1e-2)
 
+
 class TestEx07:
     def test_counter(self):
         counter = exercises.Counter()
         n = random.choice(range(50)) + 1
-        [ counter.count_up() for _ in range(n) ]
+        [counter.count_up() for _ in range(n)]
         assert counter.count == n
+
 
 class TextBonus:
     def test_unit_test_folder_exists(self):
