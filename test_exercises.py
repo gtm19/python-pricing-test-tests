@@ -33,7 +33,7 @@ class TestEx02:
         capsys.readouterr()
 
         exercises.validate_exposure(value)
-        out, err = capsys.readouterr()
+        out, _err = capsys.readouterr()
         print(out)
         assert text in out.lower()
 
@@ -43,7 +43,7 @@ class TestEx02:
         capsys.readouterr()
 
         exercises.validate_exposure(50)
-        out, err = capsys.readouterr()
+        out, _err = capsys.readouterr()
         print(out)
         assert "small" not in out.lower()
         assert "large" not in out.lower()
